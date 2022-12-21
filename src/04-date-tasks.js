@@ -73,8 +73,21 @@ function isLeapYear(/* date */) {
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,10,0,0,250)     => "00:00:00.250"
  *    Date(2000,1,1,10,0,0),  Date(2000,1,1,15,20,10,453)   => "05:20:10.453"
  */
-function timeSpanToString(/* startDate, endDate */) {
-  throw new Error('Not implemented');
+function timeSpanToString(startDate, endDate) {
+  let h = endDate.getHours() - startDate.getHours();
+  if (startDate.getDay() !== endDate.getDay()) {
+    h += 24;
+  }
+  h = h < 10 ? `0${h}` : h;
+  let m = endDate.getMinutes() - startDate.getMinutes();
+  m = m < 10 ? `0${m}` : m;
+
+  let s = endDate.getSeconds() - startDate.getSeconds();
+  s = s < 10 ? `0${s}` : s;
+
+  let mscnds = endDate.getMilliseconds() - startDate.getMilliseconds();
+  mscnds = mscnds < 100 ? `00${mscnds}` : mscnds;
+  return `${h}:${m}:${s}.${mscnds}`;
 }
 
 
@@ -94,8 +107,19 @@ function timeSpanToString(/* startDate, endDate */) {
  *    Date.UTC(2016,3,5,18, 0) => Math.PI
  *    Date.UTC(2016,3,5,21, 0) => Math.PI/2
  */
-function angleBetweenClockHands(/* date */) {
-  throw new Error('Not implemented');
+function angleBetweenClockHands(date) {
+  const tmp = (Math.PI / 180);
+
+  const m = date.getUTCMinutes();
+  let h = date.getUTCHours();
+
+  h = (h > 12 ? h - 12 : h);
+  const x = (60 * h - 11 * m) / 2;
+  let res = Math.abs(x);
+  while (res > 180) {
+    res -= 180;
+  }
+  return res * tmp;
 }
 
 
