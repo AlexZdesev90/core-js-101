@@ -91,8 +91,11 @@ function getSumBetweenNumbers(n1, n2) {
  *   10,1,1   =>  false
  *   10,10,10 =>  true
  */
-function isTriangle(/* a, b, c */) {
-  throw new Error('Not implemented');
+function isTriangle(a, b, c) {
+  const one = a + b > c;
+  const two = b + c > a;
+  const three = a + c > b;
+  return one && two && three;
 }
 
 
@@ -326,10 +329,27 @@ function getDigitalRoot(num) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const arr = [];
+  const begin = '{[(<';
+  const finish = '}])>';
+  const check = {
+    '}': '{', ']': '[', ')': '(', '>': '<',
+  };
+  for (let i = 0; i < str.length; i += 1) {
+    const curr = str[i];
+    if (begin.includes(curr)) {
+      arr.push(curr);
+    }
+    if (finish.includes(curr)) {
+      const endElem = arr.pop();
+      if (check[curr] !== endElem) {
+        return false;
+      }
+    }
+  }
+  return arr.length === 0;
 }
-
 
 /**
  * Returns the string with n-ary (binary, ternary, etc, where n <= 10)
